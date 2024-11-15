@@ -1,0 +1,46 @@
+body {
+    background-color: rgba(129, 175, 221, 0.42);
+}
+
+h1 {
+    text-align: center;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+label {
+    font-size: 14px;
+    color: #666;
+    margin-right: 10px;
+}
+
+select {
+    padding: 5px 10px;
+    font-size: 14px;
+    color: #333;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Стили для пагинации */
+.pagination {
+    margin-top: 20px;
+}
+
+.pagination span {
+    font-size: 14px;
+    color: #666;
+}
+
+.pagination a {
+    color: #888;
+    text-decoration: none;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    margin-right: 5px;
+}

@@ -1,0 +1,98 @@
+Создание таблицы в Django
+
+Task/models.py
+
+class Article(models.Model):
+    objects = models.Manager()
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    author = models.CharField(max_length=200)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+python manage.py makemigrations
+python manage.py migrate
+
+
+Заполнение таблицы "Task_article" на сайте https://sqliteonline.com
+
+INSERT INTO articles (title, content, author, created_at)
+VALUES
+('Первая статья', 'Это првая статья.', 'admin', '2024-11-01'),
+('Вторая статья', 'Это вторая статья.', 'admin', '2024-11-04'),
+('Третья статья', 'Это третья статья.', 'admin', '2024-11-05');
+
+Продолжаем заполнять таблицу в проекте Django
+
+ python manage.py shell
+Python 3.12.7 (main, Oct  8 2024, 19:56:46) [Clang 16.0.0 (clang-1600.0.26.3)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>>
+>>> from Task.models import Article
+
+>>> Article.objects.create(title='Четвертая статья',
+...                        content='Это четвертая статья.',
+...                        author='admin',
+...                        created_at='2024-11-17')
+<Article: Article object (4)>
+>>> Article.objects.create(title='Пятая статья',
+...                        content='Это пятая статья.',
+...                        author='admin',
+...                        created_at='2024-11-15')
+<Article: Article object (5)>
+>>> Article.objects.create(title='Шестая статья',
+...                        content='Это шестая статья.',
+...                        author='user',
+...                        created_at='2024-11-16')
+<Article: Article object (6)>
+>>>
+
+Получение объекта и изменение заголовка
+python manage.py shell
+Python 3.12.7 (main, Oct  8 2024, 19:56:46) [Clang 16.0.0 (clang-1600.0.26.3)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from Task.models import Article
+>>>
+>>> post = Article.objects.get(id=1)
+>>> post.title = 'Меняем заголовок'
+>>> post.save()
+>>>
+
+
+Получение всех объектов
+>>> all_articles = Article.objects.all()
+>>> for article in all_articles:
+...     print(article.title, article.author)
+...
+Меняем заголовок admin
+Вторая статья admin
+Третья статья admin
+Четвертая статья admin
+Пятая статья admin
+Шестая статья user
+
+
+Удаление объекта с id=2
+>>>
+>>> article_to_delete = Article.objects.get(id=2)
+>>> article_to_delete.delete()
+(1, {'Task.Article': 1})
+>>>
+
+
+Фильтрация статей, созданных пользователем user
+>>>
+>>> user_articles = Article.objects.filter(author='user')
+>>> print(user_articles)
+<QuerySet [<Article: Шестая статья by user on 2024-11-15>]>
+>>>
+
+Фильтрация статей, опубликованных в 2024 году
+>>> articles_2024 = Article.objects.filter(created_at__year=2024)
+>>> print(articles_2024)
+<QuerySet [<Article: Меняем заголовок by admin on 2024-11-01>, <Article: Третья статья by admin on 2024-11-05>, <Article: Четвертая статья by admin on 2024-11-15>, <Article: Пятая статья by admin on 2024-11-15>, <Article: Шестая статья by user on 2024-11-15>]>
+
+
+
+
